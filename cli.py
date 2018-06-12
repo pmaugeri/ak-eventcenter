@@ -315,7 +315,9 @@ if __name__ == '__main__':
 
     # Initialize credentials for Akamai {OPEN} API
     edgerc = EdgeRc('.edgerc')
-    section = sys.argv[1]
+    if (len(sys.argv) > 1):
+        section = sys.argv[1]
+    section = "EventCenter"
     baseurl = 'https://%s' % edgerc.get(section, 'host')
     sess = requests.Session()
     sess.auth = EdgeGridAuth.from_edgerc(edgerc, section)
