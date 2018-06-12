@@ -21,7 +21,23 @@ $ git clone git@github.com:pmaugeri/ak-eventcenter-tools.git
 
 ## Configuration
 
-You should have in the directory where you install
-
+Prior to run for the first time the CLI you should edit the file **.edgerc** and add the credentials you obtained to connect to Akamai API endpoint.
 
 ## Usage
+
+Run the CLI using the python interpreter:
+
+```
+$ python cli.py 
+Starting prompt...
+> 
+```
+
+The first thing you will probably need to do is to change to the master customer account:
+
+```
+> cd 1-3AXXXX
+1-3AXXXX> 
+1-3AXXXX> 
+```
+
