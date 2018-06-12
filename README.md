@@ -32,7 +32,6 @@ $ python cli.py
 Starting prompt...
 > 
 ```
-
 The first thing you will probably need to do is to change to the master customer account:
 
 ```
@@ -40,7 +39,9 @@ The first thing you will probably need to do is to change to the master customer
 1-3AXXXX> 
 ```
 
-You can access some help instructions with **help** command followed by the command name you are interested in:
+### Help 
+
+Calling the **help** command will give you some help on command you are interested in:
 ```
 > help
 
@@ -58,3 +59,9 @@ Create a new Event based on a JSON file called 'event-template.json'.
 
 create <Event Name> <Start Time (in milliseconds)> <End Time (in milliseconds)>
 ```
+
+### Create a new Event
+
+The commands **Create** and **createFromCsv** will use an auxiliary JSON file as a template to create the new Event. This file is named **event-template.json** and should be locate in the current directory where you call the CLI.
+
+You default template file comes with the 3 mandatory fields: the event name, event start time and end event end time. You can customize this file. It is recommended that you first create a "master" event in Akamai portal and retrieves it using command **get**.
