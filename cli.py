@@ -119,7 +119,8 @@ class MyPrompt(Cmd):
         url_path = '/events/v2/' + currentAccount + '/events/'
         result = sess.post(urljoin(baseurl, url_path), json.dumps(data), headers={'Content-Type': 'application/json'})
         if (result.status_code == 200):
-            print json.dumps(result.json(), sort_keys=True, indent=2, separators=(',', ': '))
+            j = result.json()
+            print "Event '" + j["contents"]["name"] + "' successfully created with ID " + str(j["contents"]["id"]) + "."
         else:
             print 'ERROR: ' + str(result.status_code) + ' ' + result.reason
 
@@ -278,21 +279,22 @@ class MyPrompt(Cmd):
 
 
     def do_rm(self, args):
-        """\nDelete an Event: rm <Event ID>\n"""
+        """\nDelete one or more Event: rm <Event ID> [<Envent ID>] ...\n"""
         global baseurl
         global sess
 
         if (args != None):
             params = args.split(' ')
-            if (len(params) == 1):
-                eventId = params[0]
-                print "Removing Event ID " + eventId + "..."
-                url_path = '/events/v2/' + currentAccount + '/events/' + eventId
-                result = sess.delete(urljoin(baseurl, url_path))
-                if (result.status_code == 200):
-                    print "Event ID " + eventId + " successfully removed."
-                else:
-                    print 'ERROR: ' + str(result.status_code) + ' ' + result.reason
+            if (len(params) >= 1):
+                for i in range(0, len(params)):
+                    eventId = params[i]
+                    print "Removing Event ID " + eventId + "..."
+                    url_path = '/events/v2/' + currentAccount + '/events/' + eventId
+                    result = sess.delete(urljoin(baseurl, url_path))
+                    if (result.status_code == 200):
+                        print "Event ID " + eventId + " successfully removed."
+                    else:
+                        print 'ERROR: ' + str(result.status_code) + ' ' + result.reason
 
 
 
