@@ -11,7 +11,7 @@ from cmd import Cmd
 # Global variables
 sess = None
 baseurl = None
-currentAccount = 'current-account'
+currentAccount = ''
 promptText = '> '
 
 CONST_EVENT_TEMPLATE = 'event-template.json'
@@ -107,7 +107,7 @@ class MyPrompt(Cmd):
         
         global currentAccount
 
-        if (currentAccount != None):
+        if (currentAccount != None and currentAccount != 'current-account'):
             promptText = currentAccount + '> '
         else:
             promptText = '> '
@@ -242,12 +242,13 @@ class MyPrompt(Cmd):
                         eventStart = time.strftime("%a, %d %b %Y %H:%M:%S %Z", time.localtime(int(event["start"]) / 1000))
                         eventEnd = time.strftime("%a, %d %b %Y %H:%M:%S %Z", time.localtime(int(event["end"]) / 1000))
                         eventTable.append([eventName, eventId, eventStart, eventEnd])
-                    print 
-                    print_table(eventTable, 
-                        header=[ "Event Name", "Event ID", "Start", "End"], 
-                        wrap=True, max_col_width=40, 
-                        wrap_style='wrap', row_line=True, fix_col_width=False)
-                    print 
+                    if (len(eventTable)>0):
+                        print 
+                        print_table(eventTable, 
+                            header=[ "Event Name", "Event ID", "Start", "End"], 
+                            wrap=True, max_col_width=40, 
+                            wrap_style='wrap', row_line=True, fix_col_width=False)
+                        print 
 
                 else:
                     print 'ERROR: ' + str(result.status_code) + ' ' + result.reason
