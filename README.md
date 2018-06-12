@@ -38,6 +38,17 @@ The first thing you will probably need to do is to change to the master customer
 ```
 > cd 1-3AXXXX
 1-3AXXXX> 
-1-3AXXXX> 
 ```
 
+You can access some help instructions with **help*** command:
+```
+> help
+
+Documented commands (type help <topic>):
+========================================
+create  createFromCsv  get  help  ls  q  quit  rm
+
+Undocumented commands:
+======================
+cd
+```
