@@ -40,7 +40,7 @@ The first thing you will probably need to do is to change to the master customer
 1-3AXXXX> 
 ```
 
-You can access some help instructions with **help*** command:
+You can access some help instructions with **help** command followed by the command name you are interested in:
 ```
 > help
 
@@ -51,4 +51,10 @@ create  createFromCsv  get  help  ls  q  quit  rm
 Undocumented commands:
 ======================
 cd
+
+> help create
+
+Create a new Event based on a JSON file called 'event-template.json'.
+
+create <Event Name> <Start Time (in milliseconds)> <End Time (in milliseconds)>
 ```
