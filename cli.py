@@ -3,7 +3,7 @@ import requests
 import json
 from akamai.edgegrid import EdgeGridAuth, EdgeRc
 from urlparse import urljoin
-
+import csv
 
 
 from cmd import Cmd
@@ -34,6 +34,15 @@ class MyPrompt(Cmd):
             promptText = '> '
 
         self.prompt = promptText
+
+
+    def createEvent(self, data):
+        url_path = '/events/v2/' + currentAccount + '/events/'
+        result = sess.post(urljoin(baseurl, url_path), json.dumps(data), headers={'Content-Type': 'application/json'})
+        if (result.status_code == 200):
+            print json.dumps(result.json(), sort_keys=True, indent=2, separators=(',', ': '))
+        else:
+            print 'ERROR: ' + str(result.status_code) + ' ' + result.reason
 
 
     def do_cd(self, args):
@@ -102,12 +111,32 @@ class MyPrompt(Cmd):
                 data["start"] = startTime
                 data["end"] = endTime
 
-                url_path = '/events/v2/' + currentAccount + '/events/'
-                result = sess.post(urljoin(baseurl, url_path), json.dumps(data), headers={'Content-Type': 'application/json'})
-                if (result.status_code == 200):
-                    print json.dumps(result.json(), sort_keys=True, indent=2, separators=(',', ': '))
-                else:
-                    print 'ERROR: ' + str(result.status_code) + ' ' + result.reason
+                self.createEvent(data)
+
+
+    def do_createFromCsv(self, args):
+        """\nCreate new Events based a CSV file. First column of the file should contain the event name, second column, the start time in milliseconds and third column, the end time in milliseconds.\n\nCreate multiple events: createFromCsv <CSV file name and path>\n"""
+        if (args != None):
+            params = args.split(' ')
+            if (len(params) == 1):
+                csvFile = params[0]
+                with open(csvFile, 'rb') as csvfile:
+                    csvReader = csv.reader(csvfile, delimiter=',')
+                    for row in csvReader:
+
+                        eventName = row[0]
+                        startTime = row[1]
+                        endTime = row[2]
+
+                        with open(CONST_EVENT_TEMPLATE, "r") as read_file:
+                            data = json.load(read_file)
+
+                        data["name"] = eventName
+                        data["start"] = startTime
+                        data["end"] = endTime
+
+                        print 'Creating event ' + eventName + ' ...'
+                        self.createEvent(data)
 
     def do_ls(self, args):
         """\nList all events in a given time range.\n\nls <Start Range (in milliseconds)> <End Range (in milliseconds)>\n"""
@@ -139,7 +168,7 @@ class MyPrompt(Cmd):
             if (len(params) == 1):
                 eventId = params[0]
                 print "Removing Event ID " + eventId + "..."
-                url_path = '/events/v2/' + current-account + '/events/' + eventId
+                url_path = '/events/v2/' + currentAccount + '/events/' + eventId
                 result = sess.delete(urljoin(baseurl, url_path))
                 if (result.status_code == 200):
                     print "Event ID " + eventId + " successfully removed."
