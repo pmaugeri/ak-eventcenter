@@ -15,6 +15,13 @@ The CLI simplifies your operation with the API and offers the following command:
 
 ## Installation
 
+```
+$ git clone git@github.com:pmaugeri/ak-eventcenter-tools.git
+```
+
 ## Configuration
+
+You should have in the directory where you install
+
 
 ## Usage
